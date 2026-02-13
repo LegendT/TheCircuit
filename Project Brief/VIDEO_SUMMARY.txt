@@ -1,0 +1,100 @@
+Detailed Content Log: The BMAD Builder V6 Alpha
+Introduction & Milestones
+[00:00:00] Celebration: The speaker opens by celebrating six months since the release of the BMAD method. He highlights reaching 20,000 subscribers and nearly 18,000 GitHub stars.
+
+[00:00:25] V4 Success: Mentions the V4 Masterclass released two months ago, which has over 100,000 views.
+
+[00:01:12] V6 Alpha Announcement: Officially announces the release of the V6 Alpha version. The full beta is expected in 1-2 weeks.
+
+[00:01:39] Call for Testers: Invites the community to test the Alpha branch, find bugs, and influence the future of the project.
+
+The 5 Major Features of V6
+1. Scale Adaptive Framework
+
+[00:03:54] The Problem: Previous versions (V4) were "one size fits all" and difficult to apply to "brownfield" (existing) projects.
+
+[00:04:02] The Solution: V6 introduces a Scale Adaptive framework. The agent assesses the user's ambition at the start—whether it's a massive enterprise microservice architecture or a simple patch for an existing codebase.
+
+[00:04:29] Workflow Adaptation: Based on this assessment, the system dynamically adjusts the workflow (e.g., choosing between a complex Product Requirement Document or a simple tech spec).
+
+2. Segregation of the Core
+
+[00:04:58] Restructuring: The "BMAD Core" has been separated from the "BMAD Method." The Core is now a generic engine, and the BMAD Method is just a module running on top of it.
+
+[00:05:23] Modules (formerly Expansion Packs): This separation facilitates "Modules" for non-coding tasks like creative writing, data science, therapy, and game development.
+
+[00:06:42] Community Contribution: This makes it easier for the community to build and share their own modules for various industries.
+
+3. Localization & Agent Customization
+
+[00:07:30] Global Reach: Acknowledging the global user base, V6 adds full localization support.
+
+[00:07:47] Language Override: Users can install the framework in their preferred language (e.g., French, German, Spanish, Japanese), and agents will communicate exclusively in that language.
+
+[00:08:28] Personality Customization: Users can customize agent personas (e.g., a "friendly analyst" or a "cursing pirate"). These customizations are preserved even after software updates.
+
+4. Project Types & Reference Architectures
+
+[00:09:21] Context Awareness: The framework now understands different Project Types (e.g., web apps, console apps, video games, embedded drivers).
+
+[00:10:08] Tailored Workflows: If a user selects "Game Development," the system helps create a Game Design Document (GDD) instead of a standard PRD. It supports over 50 specific game types.
+
+[00:11:37] Document Handling: V6 removes the need to "shard" documents manually; the system now handles documents as they are imported.
+
+[00:12:08] Feature 4.5: Reference Architectures: A new feature allowing the community to submit and use pre-configured architecture templates (Reference Architectures) to speed up the setup of new "greenfield" projects.
+
+5. The "BOMB" (BMAD Builder)
+
+[00:13:27] The "Bomb": Introduction of the BMAD Method Builder Module.
+
+[00:13:43] Purpose: A module specifically designed to help users build their own agents, workflows, and modules.
+
+[00:15:00] Tiny Agents: Introduces support for "Tiny BMAD Agents"—standalone, single-file agents that can be compiled to perform specific, one-off tasks (e.g., a personal coach or helper).
+
+Installation & Demo
+[00:16:36] GitHub Setup: The speaker navigates to the GitHub repository and shows how to switch to the V6-alpha branch.
+
+[00:17:36] Terminal Setup:
+
+Opens a terminal.
+
+Creates a directory named demo.
+
+Clones the repository.
+
+[00:18:26] Installation:
+
+Runs npm install to get dependencies.
+
+Runs the specific installer command: npm run install:bmad.
+
+[00:19:33] Configuration Wizard: The installer prompts for:
+
+Installation Path: He creates a new folder project one.
+
+User Name: Sets it to "BMAD".
+
+Language: Keeps "English" (default).
+
+Modules: Selects all three: Core, Method, and Builder.
+
+Custom Agents: Accepts defaults.
+
+Project Name: Sets as "my project".
+
+IDE: Selects Cloud Code (mentioning VS Code and Cursor are also options).
+
+[00:22:16] Sub-Agents: Because Cloud Code was selected, the installer asks to install sub-agents. He confirms with "Yes".
+
+[00:23:07] Verification:
+
+He opens VS Code in the new directory.
+
+Runs the Product Manager agent.
+
+The agent successfully loads and greets him by the custom name "BMAD," confirming the installation is correct.
+
+Conclusion
+[00:24:04] Future Content: Promises more videos in the coming weeks covering sub-agents and other deep dives as the official V6 release approaches.
+
+[00:24:20] Sign Off: Encourages likes, subscriptions, and shares.

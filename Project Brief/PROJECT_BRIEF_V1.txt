@@ -1,0 +1,349 @@
+Product-Dimension Checklist
+
+BMAD v6 Paid Training Programme
+
+1. Market & Customer Dimension
+Must prove
+
+Clear ICPs with distinct needs
+
+Messaging that avoids “AI guru” bullshit
+
+Purchase triggers beyond curiosity
+
+Checklist
+
+ Finalise primary buyer persona
+
+Agencies (lead)
+
+Indie devs (secondary)
+
+Marketers / scrum masters (edge cases)
+
+ Map job-to-be-done per persona
+
+ Define why now (AI fog, method fatigue, tooling chaos)
+
+ Validate budget ownership
+
+ Identify enterprise blockers (procurement, compliance)
+
+Kill / pause criteria
+
+No clear economic buyer
+
+No compelling “why now”
+
+BMAD handoff
+
+→ Feeds Problem Definition + Persona Artifacts
+
+2. Product Definition & Scope Dimension
+Must prove
+
+This is not “a course”
+
+Clear boundaries exist
+
+IP ownership is defensible
+
+Checklist
+
+ Define what this is
+
+Training system
+
+Decision framework
+
+Certification path
+
+ Define what this is NOT
+
+Not a general AI course
+
+Not BMAD documentation
+
+ Define core promise
+
+“Get out of AI fog using structured execution”
+
+ List non-negotiable learning outcomes
+
+ Define BMAD + adjacency explicitly
+
+Kill / pause criteria
+
+Scope creep
+
+“Let’s just add one more thing”
+
+BMAD handoff
+
+→ Feeds Solution Definition + Module Boundaries
+
+3. Tiering & Monetisation Dimension
+Must prove
+
+Each tier unlocks real value
+
+Certification has teeth
+
+Support does not explode
+
+Checklist
+
+ Define tiers by capability, not content volume
+
+ Define certification requirements
+
+ Define commercial rights per tier
+
+ Define update entitlement per tier
+
+ Define refund logic
+
+Kill / pause criteria
+
+Cosmetic tiering
+
+Certification without enforcement
+
+BMAD handoff
+
+→ Feeds Business Model Module
+
+4. Pedagogy, UX & Conversion Dimension
+Must prove
+
+Cognitive load is managed
+
+Progress feels real
+
+Conversion is ethical and effective
+
+Checklist
+
+ Choose learning model
+
+Progressive disclosure
+
+Scenario-based learning
+
+ Define learning unit size
+
+ Define progress signalling
+
+ Define conversion funnel
+
+ Define onboarding success metric
+
+Kill / pause criteria
+
+“Video dump” behaviour
+
+Dark-pattern conversion tactics
+
+BMAD handoff
+
+→ Feeds UX Architecture + User Journey Maps
+
+5. Accessibility & Compliance Dimension (WCAG 2.2)
+Must prove
+
+Accessibility is default, not retrofitted
+
+Compliance is testable
+
+Checklist
+
+ Captioning & transcripts pipeline
+
+ Keyboard-only navigation
+
+ Screen reader compatibility
+
+ Colour contrast validation
+
+ Cognitive accessibility review
+
+ Accessibility testing automation
+
+Kill / pause criteria
+
+“We’ll fix accessibility later”
+
+BMAD handoff
+
+→ Feeds Quality Gates + Acceptance Criteria
+
+6. Security, IP & Anti-Piracy Dimension
+Must prove
+
+Deterrence > illusion
+
+Security doesn’t destroy UX
+
+Checklist
+
+ Threat model defined
+
+ Auth strategy (passkeys / MFA)
+
+ Per-user watermarking
+
+ Rate limiting & anomaly detection
+
+ Content delivery protection
+
+ Legal enforcement backing
+
+Kill / pause criteria
+
+Overengineering security theatre
+
+UX-hostile protection
+
+BMAD handoff
+
+→ Feeds Security Architecture Module
+
+7. Payments, Data & Legal Dimension
+Must prove
+
+World-class payment security
+
+Minimal data liability
+
+Audit readiness
+
+Checklist
+
+ Payment provider selected
+
+ PCI handled externally
+
+ Data minimisation strategy
+
+ GDPR compliance
+
+ Audit & logging strategy
+
+ Incident response plan
+
+Kill / pause criteria
+
+Handling sensitive data unnecessarily
+
+Weak refund / dispute handling
+
+BMAD handoff
+
+→ Feeds Infrastructure & Ops Module
+
+8. Hosting, Architecture & Scaling Dimension
+Must prove
+
+Easy updates
+
+Predictable costs
+
+Vendor escape routes
+
+Checklist
+
+ Static vs dynamic split
+
+ Video hosting decision
+
+ Global CDN strategy
+
+ Scaling thresholds defined
+
+ Cost curves mapped
+
+ Exit strategy defined
+
+Kill / pause criteria
+
+Vendor lock-in
+
+Scaling surprises
+
+BMAD handoff
+
+→ Feeds Technical Architecture Module
+
+9. Testing, Verification & Certification Integrity
+Must prove
+
+Content correctness
+
+Version drift detection
+
+Certification credibility
+
+Checklist
+
+ Content versioning
+
+ Regression testing
+
+ Update diff testing
+
+ Certification verification
+
+ Fraud detection
+
+ Rollback strategy
+
+Kill / pause criteria
+
+“Trust-based” certification
+
+Manual-only testing
+
+BMAD handoff
+
+→ Feeds QA & Release Gates
+
+10. Operations & Sustainability Dimension
+Must prove
+
+This doesn’t eat your life
+
+Support scales
+
+Checklist
+
+ Support boundaries
+
+ Automation-first updates
+
+ Community vs direct support split
+
+ Maintenance cadence
+
+ Sunset policy
+
+Kill / pause criteria
+
+Undefined support expectations
+
+No exit plan
+
+BMAD handoff
+
+→ Feeds Operating Model
+
+Final Outcome of STEP 3
+
+When this checklist is complete, you will have:
+
+Clear go/no-go confidence
+
+A clean BMAD Phase 1 entry
+
+Justification for custom BMAD modules
+
+A project that’s designed to last

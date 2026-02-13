@@ -1,0 +1,1006 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="color-scheme" content="light">
+  <meta name="theme-color" content="#FAF8F5">
+  <title>The Circuit — Design Directions</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,opsz,wght@0,8..60,200..900;1,8..60,200..900&display=swap" rel="stylesheet">
+  <style>
+
+    /* ═══════════════════════════════════════
+       RESET
+       ═══════════════════════════════════════ */
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    ::selection {
+      background: rgba(26, 26, 24, 0.08);
+      color: #1a1a18;
+    }
+
+    /* ═══════════════════════════════════════
+       CUSTOM PROPERTIES
+       ═══════════════════════════════════════ */
+
+    :root {
+      --surface: #FAF8F5;
+      --ink: #1a1a18;
+      --accent: oklch(0.50 0.06 55);
+
+      /* Hierarchy through ink opacity */
+      --text-primary: rgba(26, 26, 24, 1);
+      --text-secondary: rgba(26, 26, 24, 0.78);
+      --text-tertiary: rgba(26, 26, 24, 0.48);
+      --text-ghost: rgba(26, 26, 24, 0.28);
+      --rule: rgba(26, 26, 24, 0.10);
+      --rule-strong: rgba(26, 26, 24, 0.18);
+
+      /* Direction-specific (overridden per direction) */
+      --content-width: 42.5rem;
+      --text-align: center;
+      --body-size: 1.25rem;
+      --user-size: 1.5rem;
+      --system-size: 1rem;
+      --user-weight: 500;
+      --system-weight: 300;
+      --body-lh: 1.6;
+      --space-vast: 0px;
+      --space-generous: 6rem;
+      --space-moderate: 3.5rem;
+      --space-compact: 2rem;
+      --space-tight: 1rem;
+    }
+
+    /* ═══════════════════════════════════════
+       BASE TYPOGRAPHY
+       ═══════════════════════════════════════ */
+
+    html {
+      scroll-behavior: smooth;
+      scroll-snap-type: y mandatory;
+      background: var(--surface);
+    }
+
+    body {
+      font-family: 'Source Serif 4', Georgia, 'Times New Roman', serif;
+      font-optical-sizing: auto;
+      font-variant-ligatures: common-ligatures contextual;
+      font-variant-numeric: oldstyle-nums proportional-nums;
+      font-kerning: normal;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      text-rendering: optimizeLegibility;
+      background: var(--surface);
+      color: var(--ink);
+      font-size: var(--body-size);
+      line-height: var(--body-lh);
+      overscroll-behavior: none;
+    }
+
+    h1, h2, h3 { text-wrap: balance; }
+    p { text-wrap: pretty; }
+
+    /* ═══════════════════════════════════════
+       DIRECTIONS (show/hide)
+       ═══════════════════════════════════════ */
+
+    .direction { display: none; }
+    .direction[data-active="true"] { display: block; }
+
+    /* ═══════════════════════════════════════
+       DIRECTION I — CONSIDERED
+       Centred, ceremonial, maximum breath
+       ═══════════════════════════════════════ */
+
+    .direction--considered {
+      --content-width: 42.5rem;
+      --text-align: center;
+      --body-size: clamp(1.125rem, 0.95rem + 0.6vw, 1.375rem);
+      --user-size: clamp(1.3125rem, 1.05rem + 0.9vw, 1.6875rem);
+      --system-size: clamp(0.9375rem, 0.82rem + 0.4vw, 1.125rem);
+      --user-weight: 500;
+      --system-weight: 300;
+      --body-lh: 1.65;
+      --space-vast: 45vh;
+      --space-generous: clamp(5rem, 4rem + 3.5vw, 8rem);
+      --space-moderate: clamp(3rem, 2.2rem + 2.5vw, 5rem);
+      --space-compact: clamp(1.5rem, 1rem + 1.5vw, 2.5rem);
+      --space-tight: clamp(0.75rem, 0.5rem + 0.8vw, 1.25rem);
+    }
+
+    /* ═══════════════════════════════════════
+       DIRECTION II — EFFICIENT
+       Left-aligned, precise, compact
+       ═══════════════════════════════════════ */
+
+    .direction--efficient {
+      --content-width: 40rem;
+      --text-align: left;
+      --body-size: clamp(1.0625rem, 0.94rem + 0.4vw, 1.25rem);
+      --user-size: clamp(1.1875rem, 1rem + 0.6vw, 1.4375rem);
+      --system-size: clamp(0.875rem, 0.78rem + 0.32vw, 1rem);
+      --user-weight: 460;
+      --system-weight: 350;
+      --body-lh: 1.5;
+      --space-vast: 42vh;
+      --space-generous: clamp(3.5rem, 2.8rem + 2.5vw, 5.5rem);
+      --space-moderate: clamp(2rem, 1.5rem + 1.5vw, 3rem);
+      --space-compact: clamp(1rem, 0.7rem + 0.8vw, 1.5rem);
+      --space-tight: clamp(0.5rem, 0.35rem + 0.5vw, 0.75rem);
+    }
+
+    /* ═══════════════════════════════════════
+       DIRECTION III — INTIMATE
+       Narrow column, warm, confessional
+       ═══════════════════════════════════════ */
+
+    .direction--intimate {
+      --content-width: 34rem;
+      --text-align: left;
+      --body-size: clamp(1.0625rem, 0.92rem + 0.5vw, 1.3125rem);
+      --user-size: clamp(1.25rem, 1.02rem + 0.8vw, 1.5625rem);
+      --system-size: clamp(0.9375rem, 0.82rem + 0.38vw, 1.0625rem);
+      --user-weight: 440;
+      --system-weight: 320;
+      --body-lh: 1.62;
+      --space-vast: 44vh;
+      --space-generous: clamp(4rem, 3rem + 3vw, 6.5rem);
+      --space-moderate: clamp(2.5rem, 1.8rem + 2vw, 4rem);
+      --space-compact: clamp(1.25rem, 0.85rem + 1.2vw, 2rem);
+      --space-tight: clamp(0.625rem, 0.4rem + 0.65vw, 1rem);
+    }
+
+    /* ═══════════════════════════════════════
+       LAYOUT — MOMENTS (sections)
+       ═══════════════════════════════════════ */
+
+    .moment {
+      min-height: 100dvh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      padding: var(--space-generous) 1.5rem;
+      position: relative;
+      scroll-snap-align: start;
+    }
+
+    /* Visual bell — punctuation between states */
+    .moment + .moment::before {
+      content: '';
+      position: absolute;
+      top: clamp(1.5rem, 1rem + 1.5vw, 2.5rem);
+      left: 50%;
+      transform: translateX(-50%);
+      width: 2.5rem;
+      height: 2px;
+      border-radius: 1px;
+      background: var(--text-tertiary);
+    }
+
+    .moment--colophon::before {
+      display: none;
+    }
+
+    /* Colophon flows freely after artefact */
+    .moment--colophon {
+      scroll-snap-align: none;
+    }
+
+    .moment--sufficiency {
+      padding-top: var(--space-compact);
+      padding-bottom: var(--space-compact);
+    }
+
+    .moment--silence {
+      padding-top: 0;
+      padding-bottom: 0;
+    }
+
+    .moment--artefact {
+      min-height: auto;
+      padding-top: var(--space-moderate);
+      padding-bottom: calc(var(--space-generous) + 4rem);
+    }
+
+    .moment--colophon {
+      min-height: auto;
+      padding-top: var(--space-moderate);
+      padding-bottom: calc(var(--space-generous) + 5rem);
+      border-top: 1px solid var(--rule);
+    }
+
+    .moment__inner {
+      width: 100%;
+      max-width: var(--content-width);
+      text-align: var(--text-align);
+    }
+
+    /* ═══════════════════════════════════════
+       SCROLL REVEAL
+       ═══════════════════════════════════════ */
+
+    .reveal {
+      opacity: 0;
+      transform: translateY(28px);
+      transition:
+        opacity 0.9s cubic-bezier(0.16, 1, 0.3, 1),
+        transform 0.9s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .reveal-stagger > * {
+      opacity: 0;
+      transform: translateY(20px);
+      transition:
+        opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1),
+        transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .reveal-stagger.visible > * { opacity: 1; transform: translateY(0); }
+    .reveal-stagger.visible > *:nth-child(1) { transition-delay: 0ms; }
+    .reveal-stagger.visible > *:nth-child(2) { transition-delay: 120ms; }
+    .reveal-stagger.visible > *:nth-child(3) { transition-delay: 240ms; }
+    .reveal-stagger.visible > *:nth-child(4) { transition-delay: 360ms; }
+
+    /* ═══════════════════════════════════════
+       COMPONENTS — TEXT ROLES
+       ═══════════════════════════════════════ */
+
+    .system-prompt {
+      font-size: var(--system-size);
+      font-weight: var(--system-weight);
+      color: var(--text-secondary);
+      margin-bottom: var(--space-moderate);
+      letter-spacing: 0.005em;
+    }
+
+    .privacy-note {
+      font-size: calc(var(--system-size) * 0.85);
+      font-weight: var(--system-weight);
+      color: var(--text-tertiary);
+      margin-bottom: var(--space-generous);
+      letter-spacing: 0.01em;
+    }
+
+    .user-text {
+      font-size: var(--user-size);
+      font-weight: var(--user-weight);
+      color: var(--text-primary);
+      line-height: var(--body-lh);
+    }
+
+    /* ═══════════════════════════════════════
+       COMPONENTS — FIELD (contenteditable)
+       ═══════════════════════════════════════ */
+
+    .field {
+      font-family: inherit;
+      font-size: var(--user-size);
+      font-weight: var(--user-weight);
+      color: var(--text-primary);
+      line-height: var(--body-lh);
+      border: none;
+      outline: none;
+      background: none;
+      width: 100%;
+      min-height: 2.5em;
+      caret-color: var(--ink);
+      text-align: var(--text-align);
+      padding: 0;
+    }
+
+    .field:empty::before {
+      content: attr(data-placeholder);
+      color: var(--text-ghost);
+      font-weight: 340;
+      pointer-events: none;
+    }
+
+    .field:focus { outline: none; }
+
+    .field-rule {
+      width: min(100%, 12rem);
+      height: 1px;
+      background: var(--rule);
+      margin: var(--space-tight) auto 0;
+    }
+
+    .direction--efficient .field-rule,
+    .direction--intimate .field-rule {
+      margin-left: 0;
+      margin-right: auto;
+    }
+
+    /* ═══════════════════════════════════════
+       COMPONENTS — DECLARATION BLOCKING
+       ═══════════════════════════════════════ */
+
+    .blocking-moment {
+      margin-bottom: var(--space-moderate);
+      padding-bottom: var(--space-compact);
+      border-bottom: 1px solid var(--rule);
+    }
+
+    .rejected-text {
+      font-size: var(--user-size);
+      font-weight: 380;
+      color: var(--text-tertiary);
+      text-decoration: line-through;
+      text-decoration-color: var(--text-ghost);
+      margin-bottom: var(--space-tight);
+    }
+
+    .redirect-copy {
+      font-size: var(--body-size);
+      font-weight: 400;
+      font-style: italic;
+      color: var(--text-secondary);
+      margin-bottom: 0;
+    }
+
+    .redirect-copy em {
+      font-style: normal;
+      font-weight: var(--user-weight);
+      color: var(--text-primary);
+    }
+
+    /* ═══════════════════════════════════════
+       COMPONENTS — SUFFICIENCY
+       ═══════════════════════════════════════ */
+
+    .sufficiency-fields {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-compact);
+    }
+
+    .suf-field {
+      padding: var(--space-compact) 0;
+    }
+
+    .suf-field + .suf-field {
+      border-top: 1px solid var(--rule);
+    }
+
+    .suf-label {
+      font-size: var(--system-size);
+      font-weight: var(--system-weight);
+      color: var(--text-secondary);
+      letter-spacing: 0.01em;
+      margin-bottom: var(--space-tight);
+      text-transform: none;
+    }
+
+    .suf-field--elevated {
+      padding: var(--space-moderate) 0;
+    }
+
+    .suf-field--elevated .suf-label {
+      font-weight: calc(var(--system-weight) + 80);
+      color: var(--text-primary);
+    }
+
+    .suf-field--elevated .user-text {
+      font-weight: calc(var(--user-weight) + 20);
+    }
+
+    /* ═══════════════════════════════════════
+       COMPONENTS — EXIT SILENCE
+       ═══════════════════════════════════════ */
+
+    .finality-line {
+      font-size: var(--user-size);
+      font-weight: var(--user-weight);
+      color: var(--text-primary);
+      line-height: 1.4;
+      padding-top: var(--space-vast);
+    }
+
+    .artefact-peek {
+      margin-top: auto;
+      padding-bottom: 2rem;
+      font-size: calc(var(--system-size) * 0.9);
+      font-weight: 400;
+      color: var(--text-ghost);
+      letter-spacing: 0.02em;
+    }
+
+    /* ═══════════════════════════════════════
+       COMPONENTS — ARTEFACT PAPER
+       ═══════════════════════════════════════ */
+
+    .artefact-paper {
+      background: #FEFDFB;
+      border-radius: 2px;
+      padding: clamp(2rem, 1.5rem + 2vw, 3.5rem) clamp(1.5rem, 1rem + 2vw, 3rem);
+      max-width: 45rem;
+      width: 100%;
+      margin: 0 auto;
+      box-shadow:
+        0 0 0 1px rgba(0,0,0,0.03),
+        0 1px 3px rgba(0,0,0,0.04),
+        0 6px 16px rgba(0,0,0,0.035),
+        0 20px 40px rgba(0,0,0,0.025);
+    }
+
+    .artefact-header {
+      text-align: center;
+      margin-bottom: var(--space-moderate);
+      padding-bottom: var(--space-compact);
+      border-bottom: 2px solid var(--accent);
+    }
+
+    .artefact-title {
+      font-size: clamp(1.25rem, 1rem + 0.8vw, 1.625rem);
+      font-weight: 600;
+      font-variant-numeric: lining-nums;
+      letter-spacing: -0.01em;
+      color: var(--text-primary);
+      margin-bottom: 0.5rem;
+    }
+
+    .artefact-meta {
+      font-size: clamp(0.8125rem, 0.72rem + 0.3vw, 0.9375rem);
+      font-weight: 350;
+      color: var(--text-secondary);
+      letter-spacing: 0.01em;
+    }
+
+    .artefact-body { text-align: left; }
+
+    .artefact-section {
+      margin-bottom: var(--space-compact);
+      padding-bottom: var(--space-compact);
+    }
+
+    .artefact-section + .artefact-section {
+      border-top: 1px solid var(--rule);
+      padding-top: var(--space-compact);
+    }
+
+    .artefact-heading {
+      font-size: clamp(0.875rem, 0.78rem + 0.3vw, 1.0625rem);
+      font-weight: 580;
+      color: var(--accent);
+      letter-spacing: 0.005em;
+      margin-bottom: var(--space-tight);
+    }
+
+    .artefact-body p {
+      font-size: clamp(1rem, 0.9rem + 0.35vw, 1.1875rem);
+      font-weight: 450;
+      line-height: 1.58;
+      color: var(--text-primary);
+      hanging-punctuation: first last;
+    }
+
+    .artefact-commit {
+      margin-top: var(--space-moderate);
+      padding-top: var(--space-compact);
+      border-top: 1px solid var(--rule-strong);
+      text-align: center;
+    }
+
+    .artefact-timestamp {
+      font-size: clamp(0.75rem, 0.68rem + 0.25vw, 0.875rem);
+      font-weight: 400;
+      font-variant-numeric: lining-nums tabular-nums;
+      color: var(--text-secondary);
+      letter-spacing: 0.015em;
+    }
+
+    /* Direction-specific artefact overrides */
+    .direction--efficient .artefact-header { text-align: left; }
+    .direction--efficient .artefact-commit { text-align: left; }
+    .direction--intimate .artefact-paper { max-width: 38rem; }
+
+    /* ═══════════════════════════════════════
+       COMPONENTS — COLOPHON
+       ═══════════════════════════════════════ */
+
+    .colophon-name {
+      font-size: clamp(1.375rem, 1.1rem + 0.9vw, 1.75rem);
+      font-weight: 580;
+      color: var(--text-primary);
+      margin-bottom: var(--space-tight);
+      letter-spacing: -0.01em;
+    }
+
+    .colophon-philosophy {
+      font-size: var(--body-size);
+      font-weight: 380;
+      color: var(--text-secondary);
+      line-height: 1.6;
+      margin-bottom: var(--space-moderate);
+      max-width: 38rem;
+    }
+
+    .direction--considered .colophon-philosophy { margin-inline: auto; }
+
+    .colophon-details {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 0.625rem;
+    }
+
+    .colophon-details li {
+      font-size: calc(var(--system-size) * 0.95);
+      font-weight: 360;
+      color: var(--text-secondary);
+      padding-left: 1.25em;
+      position: relative;
+    }
+
+    .colophon-details li::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 0.65em;
+      width: 4px;
+      height: 4px;
+      border-radius: 50%;
+      background: var(--text-tertiary);
+    }
+
+    /* ═══════════════════════════════════════
+       NAVIGATION
+       ═══════════════════════════════════════ */
+
+    .dir-nav {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      display: flex;
+      justify-content: center;
+      gap: clamp(2rem, 1.5rem + 2vw, 4rem);
+      padding: 1.5rem 1.5rem 1.25rem;
+      background: linear-gradient(
+        to bottom,
+        transparent 0%,
+        rgba(250, 248, 245, 0.85) 30%,
+        rgba(250, 248, 245, 0.98) 100%
+      );
+      z-index: 100;
+    }
+
+    .dir-nav__btn {
+      font-family: inherit;
+      font-size: clamp(0.8125rem, 0.72rem + 0.3vw, 0.9375rem);
+      font-weight: 380;
+      color: var(--text-tertiary);
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 0.5rem 0.25rem;
+      letter-spacing: 0.015em;
+      transition: font-weight 0.4s ease, color 0.4s ease;
+      text-align: center;
+      line-height: 1.3;
+    }
+
+    .dir-nav__btn:hover { color: var(--text-secondary); }
+
+    .dir-nav__btn[aria-current="true"] {
+      font-weight: 560;
+      color: var(--text-primary);
+    }
+
+    .dir-nav__num {
+      display: block;
+      font-variant-numeric: lining-nums;
+      font-size: 0.9em;
+      margin-bottom: 0.15em;
+    }
+
+    .dir-nav__label {
+      display: block;
+      font-size: 0.85em;
+    }
+
+    /* ═══════════════════════════════════════
+       REDUCED MOTION
+       ═══════════════════════════════════════ */
+
+    @media (prefers-reduced-motion: reduce) {
+      .reveal, .reveal-stagger > * {
+        opacity: 1;
+        transform: none;
+        transition: none;
+      }
+    }
+
+  </style>
+</head>
+<body>
+
+  <!-- ═══════════════════════════════════════════════════
+       DIRECTION I — CONSIDERED
+       Centred, ceremonial, maximum breath
+       ═══════════════════════════════════════════════════ -->
+
+  <div class="direction direction--considered" id="dir-1" data-active="true">
+
+    <section class="moment moment--orientation">
+      <div class="moment__inner reveal-stagger">
+        <p class="privacy-note">This is private. Only you can see it.</p>
+        <p class="system-prompt">What decision are you facing?</p>
+        <div class="field" contenteditable="true" role="textbox"
+             aria-label="Your decision" data-placeholder="Do I..."></div>
+        <div class="field-rule"></div>
+      </div>
+    </section>
+
+    <section class="moment moment--declaration">
+      <div class="moment__inner reveal">
+        <p class="system-prompt">State your decision in first person.</p>
+        <div class="blocking-moment">
+          <p class="rejected-text">We've been discussing leaving the firm to start something independent...</p>
+          <p class="redirect-copy">That describes a collective discussion. What are <em>you</em> deciding?</p>
+        </div>
+        <p class="user-text">I am deciding to leave my position at Harrison &amp; Cole to build an independent strategy consultancy. I own this decision and its consequences.</p>
+      </div>
+    </section>
+
+    <section class="moment moment--sufficiency">
+      <div class="moment__inner reveal">
+        <div class="sufficiency-fields">
+          <div class="suf-field">
+            <h3 class="suf-label">What is enough?</h3>
+            <p class="user-text">Three signed advisory clients before I give notice. Twelve months of personal runway. A verbal commitment from Sarah Chen to join within the first year.</p>
+          </div>
+          <div class="suf-field suf-field--elevated">
+            <h3 class="suf-label">What are you excluding?</h3>
+            <p class="user-text">I am not building a full-service agency. I am not taking the Meridian account with me. I am not asking for a transition period longer than sixty days.</p>
+          </div>
+          <div class="suf-field">
+            <h3 class="suf-label">What risk are you accepting?</h3>
+            <p class="user-text">Sarah may not join. The advisory clients may not convert to retainers. I may earn nothing for six months.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="moment moment--silence">
+      <div class="moment__inner reveal">
+        <p class="finality-line">There is nothing else. This decision is yours now.</p>
+      </div>
+      <p class="artefact-peek">Decision Record</p>
+    </section>
+
+    <section class="moment moment--artefact">
+      <div class="moment__inner reveal">
+        <div class="artefact-paper">
+          <header class="artefact-header">
+            <h2 class="artefact-title">Decision Record</h2>
+            <p class="artefact-meta">Marcus Cole &mdash; 11 February 2026</p>
+          </header>
+          <div class="artefact-body">
+            <section class="artefact-section">
+              <h3 class="artefact-heading">Decision</h3>
+              <p>Should I leave my position at the firm to start an independent practice?</p>
+            </section>
+            <section class="artefact-section">
+              <h3 class="artefact-heading">Declaration</h3>
+              <p>I am deciding to leave my position at Harrison &amp; Cole to build an independent strategy consultancy. I own this decision and its consequences.</p>
+            </section>
+            <section class="artefact-section">
+              <h3 class="artefact-heading">What is enough</h3>
+              <p>Three signed advisory clients before I give notice. Twelve months of personal runway. A verbal commitment from Sarah Chen to join within the first year.</p>
+            </section>
+            <section class="artefact-section">
+              <h3 class="artefact-heading">What is excluded</h3>
+              <p>I am not building a full-service agency. I am not taking the Meridian account with me. I am not asking for a transition period longer than sixty days.</p>
+            </section>
+            <section class="artefact-section">
+              <h3 class="artefact-heading">What risk is accepted</h3>
+              <p>Sarah may not join. The advisory clients may not convert to retainers. I may earn nothing for six months.</p>
+            </section>
+            <div class="artefact-commit">
+              <p class="artefact-timestamp">Committed 11 February 2026, 22:47 GMT</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="moment moment--colophon">
+      <div class="moment__inner reveal">
+        <h2 class="colophon-name">I. Considered</h2>
+        <p class="colophon-philosophy">This direction treats each word as weighty. Centred alignment forces visual balance. Generous spacing invites contemplation. The artefact renders as a formal legal brief &mdash; centred headings, wide margins, serif authority at its most classical.</p>
+        <ul class="colophon-details">
+          <li>Centred throughout &mdash; balance as visual principle</li>
+          <li>Largest type scale &mdash; every word earns its space</li>
+          <li>Most generous whitespace &mdash; the room is wide open</li>
+          <li>Artefact as legal brief &mdash; formal, authoritative, ceremonial</li>
+        </ul>
+      </div>
+    </section>
+
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════
+       DIRECTION II — EFFICIENT
+       Left-aligned, precise, compact but considered
+       ═══════════════════════════════════════════════════ -->
+
+  <div class="direction direction--efficient" id="dir-2">
+
+    <section class="moment moment--orientation">
+      <div class="moment__inner reveal-stagger">
+        <p class="privacy-note">This is private. Only you can see it.</p>
+        <p class="system-prompt">What decision are you facing?</p>
+        <p class="user-text">Should I leave my position at the firm to start an independent practice?</p>
+        <div class="field-rule"></div>
+      </div>
+    </section>
+
+    <section class="moment moment--declaration">
+      <div class="moment__inner reveal">
+        <p class="system-prompt">State your decision in first person.</p>
+        <div class="blocking-moment">
+          <p class="rejected-text">We've been discussing leaving the firm to start something independent...</p>
+          <p class="redirect-copy">That describes a collective discussion. What are <em>you</em> deciding?</p>
+        </div>
+        <p class="user-text">I am deciding to leave my position at Harrison &amp; Cole to build an independent strategy consultancy. I own this decision and its consequences.</p>
+      </div>
+    </section>
+
+    <section class="moment moment--sufficiency">
+      <div class="moment__inner reveal">
+        <div class="sufficiency-fields">
+          <div class="suf-field">
+            <h3 class="suf-label">What is enough?</h3>
+            <p class="user-text">Three signed advisory clients before I give notice. Twelve months of personal runway. A verbal commitment from Sarah Chen to join within the first year.</p>
+          </div>
+          <div class="suf-field suf-field--elevated">
+            <h3 class="suf-label">What are you excluding?</h3>
+            <p class="user-text">I am not building a full-service agency. I am not taking the Meridian account with me. I am not asking for a transition period longer than sixty days.</p>
+          </div>
+          <div class="suf-field">
+            <h3 class="suf-label">What risk are you accepting?</h3>
+            <p class="user-text">Sarah may not join. The advisory clients may not convert to retainers. I may earn nothing for six months.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="moment moment--silence">
+      <div class="moment__inner reveal">
+        <p class="finality-line">There is nothing else. This decision is yours now.</p>
+      </div>
+      <p class="artefact-peek">Decision Record</p>
+    </section>
+
+    <section class="moment moment--artefact">
+      <div class="moment__inner reveal">
+        <div class="artefact-paper">
+          <header class="artefact-header">
+            <h2 class="artefact-title">Decision Record</h2>
+            <p class="artefact-meta">Marcus Cole &mdash; 11 February 2026</p>
+          </header>
+          <div class="artefact-body">
+            <section class="artefact-section">
+              <h3 class="artefact-heading">Decision</h3>
+              <p>Should I leave my position at the firm to start an independent practice?</p>
+            </section>
+            <section class="artefact-section">
+              <h3 class="artefact-heading">Declaration</h3>
+              <p>I am deciding to leave my position at Harrison &amp; Cole to build an independent strategy consultancy. I own this decision and its consequences.</p>
+            </section>
+            <section class="artefact-section">
+              <h3 class="artefact-heading">What is enough</h3>
+              <p>Three signed advisory clients before I give notice. Twelve months of personal runway. A verbal commitment from Sarah Chen to join within the first year.</p>
+            </section>
+            <section class="artefact-section">
+              <h3 class="artefact-heading">What is excluded</h3>
+              <p>I am not building a full-service agency. I am not taking the Meridian account with me. I am not asking for a transition period longer than sixty days.</p>
+            </section>
+            <section class="artefact-section">
+              <h3 class="artefact-heading">What risk is accepted</h3>
+              <p>Sarah may not join. The advisory clients may not convert to retainers. I may earn nothing for six months.</p>
+            </section>
+            <div class="artefact-commit">
+              <p class="artefact-timestamp">Committed 11 February 2026, 22:47 GMT</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="moment moment--colophon">
+      <div class="moment__inner reveal">
+        <h2 class="colophon-name">II. Efficient</h2>
+        <p class="colophon-philosophy">This direction treats the circuit as professional infrastructure. Left-aligned text creates reading flow. Compact spacing conveys purposefulness. The artefact renders as an executive memo &mdash; clean headers, structured sections, information-dense without being crowded.</p>
+        <ul class="colophon-details">
+          <li>Left-aligned throughout &mdash; reading flow as priority</li>
+          <li>Tighter type scale &mdash; purposeful and precise</li>
+          <li>Compact but considered spacing &mdash; nothing wasted</li>
+          <li>Artefact as executive memo &mdash; professional, structured, direct</li>
+        </ul>
+      </div>
+    </section>
+
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════
+       DIRECTION III — INTIMATE
+       Narrow column, warm weights, confessional
+       ═══════════════════════════════════════════════════ -->
+
+  <div class="direction direction--intimate" id="dir-3">
+
+    <section class="moment moment--orientation">
+      <div class="moment__inner reveal-stagger">
+        <p class="privacy-note">This is private. Only you can see it.</p>
+        <p class="system-prompt">What decision are you facing?</p>
+        <p class="user-text">Should I leave my position at the firm to start an independent practice?</p>
+        <div class="field-rule"></div>
+      </div>
+    </section>
+
+    <section class="moment moment--declaration">
+      <div class="moment__inner reveal">
+        <p class="system-prompt">State your decision in first person.</p>
+        <div class="blocking-moment">
+          <p class="rejected-text">We've been discussing leaving the firm to start something independent...</p>
+          <p class="redirect-copy">That describes a collective discussion. What are <em>you</em> deciding?</p>
+        </div>
+        <p class="user-text">I am deciding to leave my position at Harrison &amp; Cole to build an independent strategy consultancy. I own this decision and its consequences.</p>
+      </div>
+    </section>
+
+    <section class="moment moment--sufficiency">
+      <div class="moment__inner reveal">
+        <div class="sufficiency-fields">
+          <div class="suf-field">
+            <h3 class="suf-label">What is enough?</h3>
+            <p class="user-text">Three signed advisory clients before I give notice. Twelve months of personal runway. A verbal commitment from Sarah Chen to join within the first year.</p>
+          </div>
+          <div class="suf-field suf-field--elevated">
+            <h3 class="suf-label">What are you excluding?</h3>
+            <p class="user-text">I am not building a full-service agency. I am not taking the Meridian account with me. I am not asking for a transition period longer than sixty days.</p>
+          </div>
+          <div class="suf-field">
+            <h3 class="suf-label">What risk are you accepting?</h3>
+            <p class="user-text">Sarah may not join. The advisory clients may not convert to retainers. I may earn nothing for six months.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="moment moment--silence">
+      <div class="moment__inner reveal">
+        <p class="finality-line">There is nothing else. This decision is yours now.</p>
+      </div>
+      <p class="artefact-peek">Decision Record</p>
+    </section>
+
+    <section class="moment moment--artefact">
+      <div class="moment__inner reveal">
+        <div class="artefact-paper">
+          <header class="artefact-header">
+            <h2 class="artefact-title">Decision Record</h2>
+            <p class="artefact-meta">Marcus Cole &mdash; 11 February 2026</p>
+          </header>
+          <div class="artefact-body">
+            <section class="artefact-section">
+              <h3 class="artefact-heading">Decision</h3>
+              <p>Should I leave my position at the firm to start an independent practice?</p>
+            </section>
+            <section class="artefact-section">
+              <h3 class="artefact-heading">Declaration</h3>
+              <p>I am deciding to leave my position at Harrison &amp; Cole to build an independent strategy consultancy. I own this decision and its consequences.</p>
+            </section>
+            <section class="artefact-section">
+              <h3 class="artefact-heading">What is enough</h3>
+              <p>Three signed advisory clients before I give notice. Twelve months of personal runway. A verbal commitment from Sarah Chen to join within the first year.</p>
+            </section>
+            <section class="artefact-section">
+              <h3 class="artefact-heading">What is excluded</h3>
+              <p>I am not building a full-service agency. I am not taking the Meridian account with me. I am not asking for a transition period longer than sixty days.</p>
+            </section>
+            <section class="artefact-section">
+              <h3 class="artefact-heading">What risk is accepted</h3>
+              <p>Sarah may not join. The advisory clients may not convert to retainers. I may earn nothing for six months.</p>
+            </section>
+            <div class="artefact-commit">
+              <p class="artefact-timestamp">Committed 11 February 2026, 22:47 GMT</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="moment moment--colophon">
+      <div class="moment__inner reveal">
+        <h2 class="colophon-name">III. Intimate</h2>
+        <p class="colophon-philosophy">This direction treats the circuit as a private conversation. A narrow column brings the text close. Warmer weights create a confessional quality. The artefact renders as a personal letter &mdash; intimate margins, considered leading, words written for one reader.</p>
+        <ul class="colophon-details">
+          <li>Narrow column (34rem) &mdash; text held close</li>
+          <li>Warmer font weights &mdash; 440 user, 320 system</li>
+          <li>Generous line-height &mdash; room to breathe between lines</li>
+          <li>Artefact as personal letter &mdash; intimate, considered, private</li>
+        </ul>
+      </div>
+    </section>
+
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════
+       NAVIGATION
+       ═══════════════════════════════════════════════════ -->
+
+  <nav class="dir-nav" role="tablist" aria-label="Design directions">
+    <button class="dir-nav__btn" data-dir="1" aria-current="true" role="tab">
+      <span class="dir-nav__num">I</span>
+      <span class="dir-nav__label">Considered</span>
+    </button>
+    <button class="dir-nav__btn" data-dir="2" role="tab">
+      <span class="dir-nav__num">II</span>
+      <span class="dir-nav__label">Efficient</span>
+    </button>
+    <button class="dir-nav__btn" data-dir="3" role="tab">
+      <span class="dir-nav__num">III</span>
+      <span class="dir-nav__label">Intimate</span>
+    </button>
+  </nav>
+
+  <script>
+    // Direction switching
+    const navBtns = document.querySelectorAll('.dir-nav__btn');
+    const directions = document.querySelectorAll('.direction');
+
+    navBtns.forEach(btn => {
+      btn.addEventListener('click', () => {
+        const target = btn.dataset.dir;
+        navBtns.forEach(b => b.removeAttribute('aria-current'));
+        btn.setAttribute('aria-current', 'true');
+        directions.forEach(d => d.removeAttribute('data-active'));
+        document.getElementById('dir-' + target).setAttribute('data-active', 'true');
+        window.scrollTo({ top: 0, behavior: 'instant' });
+        setTimeout(observeReveals, 50);
+      });
+    });
+
+    // Scroll reveal via IntersectionObserver
+    let currentObserver = null;
+
+    function observeReveals() {
+      if (currentObserver) currentObserver.disconnect();
+
+      currentObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('visible');
+          }
+        });
+      }, {
+        threshold: 0.12,
+        rootMargin: '-4% 0px -4% 0px'
+      });
+
+      const activeDir = document.querySelector('.direction[data-active="true"]');
+      if (!activeDir) return;
+
+      activeDir.querySelectorAll('.reveal, .reveal-stagger').forEach(el => {
+        el.classList.remove('visible');
+        currentObserver.observe(el);
+      });
+    }
+
+    observeReveals();
+  </script>
+
+</body>
+</html>
